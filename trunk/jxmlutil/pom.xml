@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>jxmutil</groupId>
-  <artifactId>JXMutiL</artifactId>
+  <artifactId>jxmutil</artifactId>
   <version>1.1</version>
   <packaging>jar</packaging>
 
-  <name>JXMutiL</name>
+  <name>jxmutil</name>
 
   <dependencies>
   
@@ -149,7 +149,7 @@
 			        <descriptorRefs>
 			            <descriptorRef>jar-with-dependencies</descriptorRef>
 			        </descriptorRefs>
-			        <finalName>JXmlUtil</finalName>
+			        <finalName>jxmutil</finalName>
 			        
 			        <!-- specify to don't append the suffix 'jar-with-dependencies' -->
                     <appendAssemblyId>false</appendAssemblyId> 			        
