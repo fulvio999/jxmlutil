@@ -1,0 +1,174 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>jxmutil</groupId>
+  <artifactId>JXMutiL</artifactId>
+  <version>1.1</version>
+  <packaging>jar</packaging>
+
+  <name>JXMutiL</name>
+
+  <dependencies>
+  
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- The XSLT processor used -->
+    <dependency>
+  		<groupId>xalan</groupId>
+  		<artifactId>xalan</artifactId>
+  		<version>2.7.1</version>
+    </dependency>
+   
+    <!-- The XML parser used -->
+    <dependency>
+	   <groupId>apache-xerces</groupId>
+	   <artifactId>xercesImpl</artifactId>
+	   <version>2.9.1</version>
+	</dependency>
+
+    <dependency>
+		<groupId>xml-apis</groupId>
+		<artifactId>xml-apis</artifactId>	
+  		<version>1.3.04</version>
+    </dependency>
+
+   <dependency>
+       <groupId>xalan</groupId>
+       <artifactId>serializer</artifactId>
+       <version>2.7.1</version>
+   </dependency>
+
+	<!-- For xml validation against xsd -->
+	<dependency>
+	   <groupId>apache-xerces</groupId>
+	   <artifactId>xercesImpl</artifactId>
+	   <version>2.9.1</version>
+	</dependency>
+	
+	<!-- the xml to json (and vice versa) converter -->
+	<dependency>
+	   <groupId>net.sf.json-lib</groupId>
+	   <artifactId>json-lib</artifactId>
+	   <version>2.4</version>
+	   <type>jar</type>
+	   <classifier>jdk15</classifier>
+	   <scope>compile</scope>
+	</dependency>
+	
+	<!--  Required by json-lib -->
+	<dependency>
+        <groupId>xom</groupId>
+        <artifactId>xom</artifactId>
+        <version>1.2.5</version>
+    </dependency>	
+
+    <dependency>
+		<groupId>com.fifesoft</groupId>
+		<artifactId>rsyntaxtextarea</artifactId>
+		<version>2.0.2</version>
+    </dependency>
+  
+    <!-- Note: the version 0.9.7 is available but is necessary add a new maven repo different from the default one 
+	 	  Here is used to create hyperlink in jpanel 
+	-->
+	<dependency>
+		<groupId>org.swinglabs</groupId>
+		<artifactId>swingx</artifactId>
+		<version>0.9.5-2</version>
+	</dependency>
+	 
+	<!-- Layout library --> 
+	<dependency>
+	   <groupId>com.miglayout</groupId>
+	   <artifactId>miglayout-swing</artifactId>
+	   <version>4.2</version>
+	</dependency>
+
+  </dependencies>
+
+
+	<build>
+	
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>				
+					<include>JXMutiL-license.txt</include>												
+				</includes>
+			</resource>		
+		</resources>	
+		 	
+	
+	   <plugins>
+		
+		  <plugin>
+			 <groupId>org.apache.maven.plugins</groupId>
+			 <artifactId>maven-eclipse-plugin</artifactId>				
+		  </plugin>
+		  
+		  <!-- To use generics and other java 5 features -->
+	      <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <configuration>
+				<source>1.5</source>
+				<target>1.5</target>
+			  </configuration>
+		   </plugin>
+			
+		  <!-- Configure the jar plugin to use a custom Manifest file -->
+	      <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-jar-plugin</artifactId>
+		        <configuration>
+		          <archive>
+		            <manifest> 
+		            	<addClasspath>true</addClasspath>          
+		             	<mainClass>jxmutil.init.StartApp</mainClass>
+		            </manifest>
+		          </archive>
+		        </configuration>
+	      </plugin>
+			
+		  <!-- Execute mvn assembly:assembly to package the project as jar with inside the necessary lib jar -->		
+		  <plugin>
+		    	<artifactId>maven-assembly-plugin</artifactId>
+		    	<configuration>
+			        <archive>
+			            <manifest>
+			                <mainClass>jxmutil.init.StartApp</mainClass>
+			            </manifest>
+			        </archive>
+			        <descriptorRefs>
+			            <descriptorRef>jar-with-dependencies</descriptorRef>
+			        </descriptorRefs>
+			        <finalName>JXmlUtil</finalName>
+			        
+			        <!-- specify to don't append the suffix 'jar-with-dependencies' -->
+                    <appendAssemblyId>false</appendAssemblyId> 			        
+		    	</configuration>
+		    	
+		    	<executions>
+		          <execution>
+		            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+		            <phase>package</phase> <!-- bind the execution of the plugin to the packaging phase -->
+		            <goals>
+		              <goal>single</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		    	
+		  </plugin>
+			
+		</plugins>
+	</build>
+
+
+</project>
