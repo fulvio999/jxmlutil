@@ -30,7 +30,7 @@ public class LicensePanel extends JPanel{
 		
 		try {
 
-			InputStream is = this.getClass().getClassLoader().getResourceAsStream("XpathCheckerLicense.txt"); 	
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream("JXMutiL-license.txt"); 	
 	
 	        BufferedReader br = new BufferedReader(new InputStreamReader(is));
 	        
