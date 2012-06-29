@@ -33,6 +33,10 @@ public class ThirdPartLicense extends JPanel{
     
     private static String swingXurl = "http://swingx.java.net/";
     
+    private static String jsonLiburl = "http://json-lib.sourceforge.net/index.html";
+    
+    private static String migLayouturl = "http://www.miglayout.com/";
+    
     private static String toolTipMessage = "Open with the browser";
 
 	/**
@@ -78,10 +82,30 @@ public class ThirdPartLicense extends JPanel{
 		 this.add(new JLabel("<html><br/></html>"));
 		 
 		 this.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+		 
+		 //--------- License for json-lib -------------
+         String jsonLibMsg = "<html><b><br/>For the Json-lib library see: </b> <br/> </html>";
+		 
+		 this.add(new JLabel(jsonLibMsg));		 
+		 this.add(createLink(jsonLiburl, toolTipMessage));
+		 this.add(new JLabel("<html><br/></html>"));
+		 
+		 this.add(new JSeparator(SwingConstants.HORIZONTAL));
+		 
+		 //--------- License for MigLayout  ---------------
+		 
+         String migLayoutMsg = "<html><b><br/>For the Miglayout library see: </b> <br/> </html>";
+		 
+		 this.add(new JLabel(migLayoutMsg));		 
+		 this.add(createLink(migLayouturl, toolTipMessage));
+		 this.add(new JLabel("<html><br/></html>"));
+		 
+		 this.add(new JSeparator(SwingConstants.HORIZONTAL));
 				
 		 // dummy placeholder for layout adjausting
 		 this.add(new JLabel("<html><br/><br/><br/></html>"));
-		 this.add(new JLabel("<html><br/><br/><br/></html>"));				
+		 this.add(new JLabel("<html><br/><br/><br/></html>"));
 		
 	}
 	
