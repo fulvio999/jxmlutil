@@ -75,7 +75,7 @@ public class HelpPanel extends JPanel implements ActionListener{
 		 String xmlTreeMsg = "<html> <b> XML Tree Viewer: </b> <br/> </html>";
 		 
 		 this.add(new JLabel(xmlTreeMsg));		 
-		 this.add(new JLabel("<html>Simply chose an xml to browse it as a tree <br/> </html>"));
+		 this.add(new JLabel("<html>Choose an xml to browse it as a tree and edit his node values <br/> </html>"));
 		 
 		 this.add(new JSeparator(SwingConstants.HORIZONTAL));		 
 		 
