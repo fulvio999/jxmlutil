@@ -9,7 +9,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /*
- * Extends the default SaxParser Event Handler
+ * Extends the default SaxParser Event Handler to parse an input XML file
  * 
  */
 public class CustomSaxParseHandler extends DefaultHandler{
@@ -37,12 +37,13 @@ public class CustomSaxParseHandler extends DefaultHandler{
 	}
 
 	public void skippedEntity(String name) throws SAXException {
-		System.out.println("Skipped Entity: '" + name + "'");
+		//System.out.println("Skipped Entity: '" + name + "'");
 	}
 
 	public void startDocument() throws SAXException {
+		
 		 super.startDocument();
-		 base = new DefaultMutableTreeNode("XML Viewer");
+		 base = new DefaultMutableTreeNode("XML Viewer"); // The root name
 		((DefaultTreeModel) xmlJTree.getModel()).setRoot(base);
 	}
 
@@ -52,7 +53,7 @@ public class CustomSaxParseHandler extends DefaultHandler{
 		
 		if (!s.equals("")) {
 			
-			DefaultMutableTreeNode current = new DefaultMutableTreeNode("Descrioption : " + s);
+			DefaultMutableTreeNode current = new DefaultMutableTreeNode(s);
 			base.add(current);
 
 		}
