@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+To use this program you need a Java JRE installed on your pc.
+
+
+= How execute the program =
+
+If necessary (*nix system set the execution bit: chmod +x jxmlutil.jar)
+
+open a terminal and execute:
+java -jar jxmlutil.jar
+
+Also is possible execute it with a right-click on the downloaded jar and chose "open with jdk" or similar entry.
