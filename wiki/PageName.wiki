@@ -7,7 +7,7 @@ To use this program you need a Java JRE installed on your pc.
 
 = How execute the program =
 
-If necessary (*nix system set the execution bit: chmod +x jxmlutil.jar)
+If necessary (On Unix like systems set the execution bit: chmod +x jxmlutil.jar)
 
 open a terminal and execute:
 java -jar jxmlutil.jar
