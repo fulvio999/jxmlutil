@@ -76,12 +76,12 @@
   
     <!-- Note: the version 0.9.7 is available but is necessary add a new maven repo different from the default one 
 	 	  Here is used to create hyperlink in jpanel 
-	-->
+	-->	
 	<dependency>
 		<groupId>org.swinglabs</groupId>
 		<artifactId>swingx</artifactId>
-		<version>0.9.5-2</version>
-	</dependency>
+		<version>1.6.1</version>
+ 	</dependency>	
 	 
 	<!-- Layout library --> 
 	<dependency>
