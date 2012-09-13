@@ -9,16 +9,20 @@ import java.io.File;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import jxmutil.business.logic.XMLvalidator;
+import jxmutil.gui.common.BusyLabelPanel;
 import jxmutil.gui.common.InputFileEditorGui;
 import jxmutil.utility.CustomFileFilter;
+
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -50,6 +54,18 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
     private JButton editXsdButton;
     private JButton editXmlButton;
     
+    // The validation type: single or batch
+    private JLabel validationTypeLabel;
+    private JRadioButton singleValidationRadioButton;
+	private JRadioButton batchValidationRadioButton;
+	private ButtonGroup validationTypeButtonGroup;
+	
+	/* A sub-panel with an animation to indicates that a processing is in action */
+    private BusyLabelPanel busyLabelPanel;
+    
+    /* A sub-panel with the batch validation functionality  */
+    private XmlBatchValidationPanel xmlBatchValidationPanel;
+    
     private JButton confirmButton;    
     private JButton closeButton;
     
@@ -64,6 +80,9 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 		this.setBorder(BorderFactory.createTitledBorder(" Validate the input xml file using the provided xsd "));
 		this.setLayout(new MigLayout("wrap 4")); // we want 4 columns   				
 		this.mainFrame = mainFrame;
+		
+		busyLabelPanel = new BusyLabelPanel();
+		busyLabelPanel.getJxBusyLabel().setBusy(false);
 		
 		// XML
 		sourceXMLlabel = new JLabel("* XML to validate:");
@@ -90,26 +109,44 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
         closeButton = new JButton("Close");
         closeButton.setPreferredSize(new Dimension(100,33));
         closeButton.addActionListener(this);
+        
+        // Validation Type
+        validationTypeLabel = new JLabel("Validation Type:");
+        
+        singleValidationRadioButton = new JRadioButton("Single file");
+        singleValidationRadioButton.doClick(); //by default this button is clicked: ie the sinle file validation mode is the default
+    	batchValidationRadioButton = new JRadioButton("Batch mode");
+    	singleValidationRadioButton.addActionListener(this);
+    	batchValidationRadioButton.addActionListener(this);
+    	    	
+    	validationTypeButtonGroup = new ButtonGroup();
+    	validationTypeButtonGroup.add(singleValidationRadioButton);
+    	validationTypeButtonGroup.add(batchValidationRadioButton);
+    	
+    	// the panel with the batch validation function
+    	xmlBatchValidationPanel = new XmlBatchValidationPanel(this);
+    	xmlBatchValidationPanel.setVisible(false);
 		
-		//---------- Add the components to the JPanel
-        this.add(sourceXMLlabel);
-        this.add(sourceXMLfileTextField,"width 700:350:700,growx");   //min:preferred:max
-        this.add(browseXmlButton,"width 100"); 
-        this.add(editXmlButton,"width 100");
-        
-        
+		//---------- Add the components to the JPanel ------------
         this.add(sourceXSDlabel);
         this.add(sourceXSDfileTextField,"width 700:350:700,growx");
         this.add(browseXSDButton,"width 100");
         this.add(editXsdButton,"width 105");
         
+        this.add(sourceXMLlabel);
+        this.add(sourceXMLfileTextField,"width 700:350:700,growx");   //min:preferred:max
+        this.add(browseXmlButton,"width 100"); 
+        this.add(editXmlButton,"width 100");
         
         this.add(new JLabel(""),"span 3");
         this.add(confirmButton,"width 105"); //validate
-        
+ 
+        this.add(validationTypeLabel);
+        this.add(singleValidationRadioButton,"split 2");
+		this.add(batchValidationRadioButton,"wrap");
+         
        
-        this.add(new JLabel(""),"span 4 1,height 500"); // placeholder 
-        
+        this.add(xmlBatchValidationPanel,"span 4,align center"); // placeholder         
         
         this.add(new JLabel(""),"span 3");
         this.add(closeButton,"width 105");      
@@ -121,7 +158,29 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		  final JFileChooser xmlFileChooser;
-	      final JFileChooser xsdFileChooser;	
+	      final JFileChooser xsdFileChooser;
+	      
+	      /* Manage the action coming from the checkbox: hide or show the partial export panel */
+		  if (e.getSource() instanceof JRadioButton)  
+		  {		     
+			  if(e.getActionCommand().equals("Single file")){				 
+	             this.xmlBatchValidationPanel.setVisible(false);
+	             this.sourceXMLfileTextField.setEditable(true);
+				 this.sourceXMLfileTextField.setEnabled(true);
+				 this.confirmButton.setEnabled(true);
+				 this.browseXmlButton.setEnabled(true);
+			  }
+			  
+			  //show the panel with batch validation functionality and disable the single validation widget 
+			  if(e.getActionCommand().equals("Batch mode")){  				 
+				  this.xmlBatchValidationPanel.setVisible(true);
+				  this.sourceXMLfileTextField.setEditable(false);
+				  this.sourceXMLfileTextField.setEnabled(false);
+				  this.confirmButton.setEnabled(false);
+				  this.browseXmlButton.setEnabled(false);
+
+			  } 		      	      
+		  }
 		 
 	      if (e.getSource() instanceof JButton)  
 	      {	    	  
