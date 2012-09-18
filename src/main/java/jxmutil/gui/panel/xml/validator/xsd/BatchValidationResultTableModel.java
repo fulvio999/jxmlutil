@@ -13,7 +13,7 @@ public class BatchValidationResultTableModel extends AbstractTableModel{
 	
 	private static final long serialVersionUID = 1L;
 
-	private String[] columnNames = {"File Name","Valid","Reason"};
+	private String[] columnNames = {"File Name","Valid","Reason (select for details)"};
 	
 	/* The list of beans to display in the table: each table row represents a bean (ie each cell is a bean field value) */
 	private ArrayList<ValidationResultBean> validationResultBeanList = new ArrayList<ValidationResultBean>();
