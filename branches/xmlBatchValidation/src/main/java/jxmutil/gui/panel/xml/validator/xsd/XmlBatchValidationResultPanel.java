@@ -1,7 +1,6 @@
 
 package jxmutil.gui.panel.xml.validator.xsd;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JPanel;
@@ -12,10 +11,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
-
-import net.miginfocom.swing.MigLayout;
 
 /**
  * Show the xml batch validation results 
@@ -24,6 +23,8 @@ import net.miginfocom.swing.MigLayout;
 public class XmlBatchValidationResultPanel extends JPanel implements ListSelectionListener{
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static String VALID_XML_MSG = "---"; //the value showed in the error message cell when the xml is valid
 
 	/* The list validation results */
 	private JTable validationResultTable;
@@ -72,12 +73,16 @@ public class XmlBatchValidationResultPanel extends JPanel implements ListSelecti
 		      selCol = validationResultTable.getSelectedColumn();
 		 	  BatchValidationResultTableModel tm = (BatchValidationResultTableModel) validationResultTable.getModel();
 		 	  
-		 	  if(selCol == 2) //only if the user select the error column show the 
+		 	  if(selCol == 2) //only if the user select the error column show the popup message
 		 	  {
 		 		 errorMsg = (String) tm.getValueAt(selRows,2); //only for the error column we want the value
-		 		 System.out.println("Selection : " + errorMsg );
-		 		 ErrorInfo info = new ErrorInfo("Operation Result", "Validation Error", errorMsg, "category", null, Level.ALL, null); 
-		         JXErrorPane.showDialog(this,info);	
+		 		 //System.out.println("Selection : " + errorMsg );
+		 		 
+		 		 if(!errorMsg.equalsIgnoreCase(VALID_XML_MSG)) //no message for valid xml
+		 		 {
+		 			ErrorInfo info = new ErrorInfo("Operation Result", "Validation Error", errorMsg, "category", null, Level.ALL, null); 
+			        JXErrorPane.showDialog(this,info);	
+		 		 }		 		 
 		 	  }
 		   } 		
 	}

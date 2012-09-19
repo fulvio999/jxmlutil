@@ -40,6 +40,8 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private static String VALID_XML_MSG = "---"; //the value to show in the error message cell when the xml is valid
+	
 	// Components used to locate an XML file to be validated
 	private JLabel sourceXMLlabel;
     private JTextField sourceXMLfileTextField; //the XML file to be validated
@@ -156,7 +158,7 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
         this.add(xmlBatchValidationPanel,"span 4,growx"); 
         this.add(xmlBatchValidationResultPanel,"span 4,growx");  
         
-        this.add(new JLabel(""),"span 3");
+        this.add(new JLabel(""),"span 3"); //place-holder
         this.add(closeButton,"width 100");      
 	}
 
@@ -278,8 +280,8 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 		        	 }
 	        	  
 	        	}catch (Exception ex) {
-	        		 ErrorInfo info = new ErrorInfo("Operation Result", "Error during the validation", null, "category", ex, Level.FINE, null); 
-		             JXErrorPane.showDialog(this, info); 
+	        		ErrorInfo info = new ErrorInfo("Operation Result", "Error during the validation", null, "category", ex, Level.FINE, null); 
+		            JXErrorPane.showDialog(this, info); 
 				}	 			  
 	          }	          
 	          
@@ -295,56 +297,52 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	        		  ArrayList<ValidationResultBean> validationResultList = new ArrayList<ValidationResultBean>();
 	        		  
 	        		  File xmlInputDir = new File(inputXmlfolder);
-	        		  XMLvalidator xMLvalidator = new XMLvalidator(); //XML validator
+	        		  XMLvalidator xMLvalidator = new XMLvalidator();
 	        		    
 	        		  // using a custom filter list only the xml files
 	        		  String[] xmlFileFound = xmlInputDir.list(new XmlFilenameFilter());					 
 						 
-					  for (int i=0; i<xmlFileFound.length; i++) {
-						  
+					  for (int i=0; i<xmlFileFound.length; i++)
+					  {						  
 						  ValidationResultBean resultBean = new ValidationResultBean();
 						  
-						   // Get filename of file or directory
-						   String filename = xmlFileFound[i];
-						   //System.out.println("File to validate: "+filename);						   
-						   
-						   try {
+						  // Get filename of file or directory
+						  String filename = xmlFileFound[i];
+						  // System.out.println("File to validate: "+filename);						   
+						  resultBean.setXmlfileName(filename); 
+						  
+						  try {
 							   boolean validationResult = xMLvalidator.isValid(xmlInputDir+File.separator+filename, pathSourceXSDfile);
-							   
-							   resultBean.setXmlfileName(filename);
 							   
 							   if(validationResult)
 							   {								 
-								  resultBean.setValidationResult("yes");
-								  resultBean.setErrorDescription("---");
+								 resultBean.setValidationResult("yes");
+								 resultBean.setErrorDescription(VALID_XML_MSG);
 							   }
 							      
-							} catch (Exception e1) {
-								//e1.printStackTrace();
-								// Invalid 
-								resultBean.setValidationResult("no");
-								resultBean.setErrorDescription(e.toString());
-							}
+						  }catch (Exception exc) {								
+							 resultBean.setValidationResult("no");
+							 resultBean.setErrorDescription(exc.toString()); //the validation exception
+						  }
 						   
-						   validationResultList.add(resultBean);						   
+						  validationResultList.add(resultBean);						   
 						  
-						   BatchValidationResultTableModel tableModel = (BatchValidationResultTableModel)  xmlBatchValidationResultPanel.getValidationResultTable().getModel();		
-						   //initialize the table model with an empty list of data
-						   tableModel.setValidationResultBeanList(validationResultList);
-						   tableModel.fireTableDataChanged();
-					 }	
-					  
-					  this.xmlBatchValidationResultPanel.setVisible(true);
+						  BatchValidationResultTableModel tableModel = (BatchValidationResultTableModel)  xmlBatchValidationResultPanel.getValidationResultTable().getModel();		
+						  //initialize the table model with an empty list of data
+						  tableModel.setValidationResultBeanList(validationResultList);
+						  tableModel.fireTableDataChanged();
+					 }					  
+					 this.xmlBatchValidationResultPanel.setVisible(true);
 
 	        	  }else{        		    
-		        	 ErrorInfo info = new ErrorInfo("Operation Result", "Error Validation", "Wrong input folder or XSD file", "category", null, Level.ALL, null); 
+		        	 ErrorInfo info = new ErrorInfo("Operation Result", "Input Error", "Wrong input folder or XSD file", "category", null, Level.ALL, null); 
 			         JXErrorPane.showDialog(this,info);
 	        	  }	        		  
 	          }		  
 	          
 	          /* The user want choose a folder containing xml file to validate */
-	          if (e.getActionCommand().equals("Browse")){
-	        	  
+	          if (e.getActionCommand().equals("Browse"))
+	          {	        	  
 	        	  xmlFolderChooser = new JFileChooser();
 	        	  xmlFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	        	  xmlFolderChooser.setDialogTitle("Choose a folder with xml files");
@@ -355,21 +353,23 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	              // Return value if approved (ie yes, ok) is chosen.
 	              if (value==JFileChooser.APPROVE_OPTION)
 	              {
-	            	  File f = xmlFolderChooser.getSelectedFile();  	
-	            	  this.xmlBatchValidationPanel.getSourceXMLfolderTextField().setText(f.getAbsolutePath());	            	 
+	            	 File f = xmlFolderChooser.getSelectedFile();  	
+	            	 this.xmlBatchValidationPanel.getSourceXMLfolderTextField().setText(f.getAbsolutePath());	            	 
 	              }	        
 	          }
 	          
 	          //-- True if the user ha pressed the Close button
-	          if (e.getActionCommand().equals("Close")){
-	        	  
-        		  if (mainFrame.isDisplayable()) {                     
-        			  mainFrame.dispose();
-                  }
+	          if (e.getActionCommand().equals("Close"))
+	          {	        	  
+        		 if (mainFrame.isDisplayable()) {                     
+        			 mainFrame.dispose();
+                 }
         	  }	          
 	      }		
 	}
 
+	
+	
 	public JLabel getSourceXMLlabel() {
 		return sourceXMLlabel;
 	}
