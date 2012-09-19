@@ -201,6 +201,8 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 			  } 		      	      
 		  }
 		  
+		 try{
+		  
 		  /* Manage the actions on the Buttons */
 	      if (e.getSource() instanceof JButton)  
 	      {	    	  
@@ -223,8 +225,7 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	            	  pathSourceXMLfile = f.getAbsolutePath(); 
 	                  //set the file path in the textField
 	            	  sourceXMLfileTextField.setText(pathSourceXMLfile);            	  
-	              }
-	           
+	              }	           
 	          }
 	          
 	          // True if the user want choose an XSD file
@@ -250,13 +251,13 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	          // Edit the xml to validate
 	          if (e.getActionCommand().equals("Edit Input XML")) 
 	          {
-	        	  InputFileEditorGui editor = new InputFileEditorGui(this.sourceXMLfileTextField.getText());
+	        	 InputFileEditorGui editor = new InputFileEditorGui(this.sourceXMLfileTextField.getText());
 	          }
 	          
 	          // Edit the xsd
 	          if (e.getActionCommand().equals("Edit XSD")) 
 	          {
-	        	  InputFileEditorGui editor = new InputFileEditorGui(this.sourceXSDfileTextField.getText());
+	        	 InputFileEditorGui editor = new InputFileEditorGui(this.sourceXSDfileTextField.getText());
 	          }
 	          
 	          // ----- The user want perform the SINGLE FILE VALIDATION
@@ -319,13 +320,13 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 							   
 							   if(validationResult)
 							   {								 
-								 resultBean.setValidationResult("yes");
-								 resultBean.setErrorDescription(VALID_XML_MSG);
+								  resultBean.setValidationResult("yes");
+								  resultBean.setErrorDescription(VALID_XML_MSG);
 							   }
 							      
 						   }catch (Exception exc) {	// validation exception						
-							 resultBean.setValidationResult("no");
-							 resultBean.setErrorDescription(exc.toString()); 
+							   resultBean.setValidationResult("no");
+							   resultBean.setErrorDescription(exc.toString()); 
 						   }
 						   
 						   validationResultList.add(resultBean);						   
@@ -366,6 +367,8 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	              }	        
 	          }
 	          
+
+		       
 	          //-- True if the user ha pressed the Close button
 	          if (e.getActionCommand().equals("Close"))
 	          {	        	  
@@ -373,7 +376,13 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
         			 mainFrame.dispose();
                  }
         	  }	          
-	      }		
+	    }	
+	     
+	   }catch (Exception e2) {
+		  ErrorInfo info = new ErrorInfo("Operation Result", "Error during the validation", "Check the Input", "category", null, Level.FINE, null); 
+          JXErrorPane.showDialog(this, info); 
+	   }
+	      
 	}
 
 	
