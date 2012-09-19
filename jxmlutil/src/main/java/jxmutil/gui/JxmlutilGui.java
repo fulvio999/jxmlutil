@@ -50,7 +50,7 @@ public class JxmlutilGui {
 		}
 	}
     
-    mainFrame = new JFrame("JXMutiL v1.1");    
+    mainFrame = new JFrame("JXMutiL v1.2");    
     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainFrame.setPreferredSize(new Dimension(1100,700));   
     
