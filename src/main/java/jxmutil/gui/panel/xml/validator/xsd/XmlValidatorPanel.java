@@ -259,7 +259,7 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	        	  InputFileEditorGui editor = new InputFileEditorGui(this.sourceXSDfileTextField.getText());
 	          }
 	          
-	          // True if the user want perform the single file validation
+	          // ----- The user want perform the SINGLE FILE VALIDATION
 	          if (e.getActionCommand().equals("Validate")) 
 	          {	
 	        	  try{		        	  
@@ -288,22 +288,25 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 	          /* ---------- Action for the sub-panel with batch validation functionality ---------- */	          
 	          
 	          /* True if the user want execute a batch validation (action coming from the sub-panel XmlBatchValidationPanel) */
-	          if (e.getActionCommand().equalsIgnoreCase("Batch Validation")){        	 
-	        	  // execute the batch validation
-	        	  String inputXmlfolder = this.xmlBatchValidationPanel.getSourceXMLfolderTextField().getText();
+	          if (e.getActionCommand().equalsIgnoreCase("Batch Validation")){
 	        	  
-	        	  if(!inputXmlfolder.equalsIgnoreCase("") && inputXmlfolder != null && pathSourceXSDfile != null){
+	        	  if ((pathSourceXSDfile.endsWith("xsd")) || pathSourceXSDfile.endsWith("XSD"))
+	        	  {	        	  
+	        	    // execute the batch validation
+	        	    String inputXmlfolder = this.xmlBatchValidationPanel.getSourceXMLfolderTextField().getText();
+	        	  
+	        	    if(!inputXmlfolder.equalsIgnoreCase("") && inputXmlfolder != null && pathSourceXSDfile != null){
 	        		  
-	        		  ArrayList<ValidationResultBean> validationResultList = new ArrayList<ValidationResultBean>();
+	        		   ArrayList<ValidationResultBean> validationResultList = new ArrayList<ValidationResultBean>();
 	        		  
-	        		  File xmlInputDir = new File(inputXmlfolder);
-	        		  XMLvalidator xMLvalidator = new XMLvalidator();
+	        		   File xmlInputDir = new File(inputXmlfolder);
+	        		   XMLvalidator xMLvalidator = new XMLvalidator();
 	        		    
-	        		  // using a custom filter list only the xml files
-	        		  String[] xmlFileFound = xmlInputDir.list(new XmlFilenameFilter());					 
+	        		   // using a custom filter list only the xml files
+	        		   String[] xmlFileFound = xmlInputDir.list(new XmlFilenameFilter());					 
 						 
-					  for (int i=0; i<xmlFileFound.length; i++)
-					  {						  
+					   for (int i=0; i<xmlFileFound.length; i++)
+					   {						  
 						  ValidationResultBean resultBean = new ValidationResultBean();
 						  
 						  // Get filename of file or directory
@@ -320,27 +323,32 @@ public class XmlValidatorPanel extends JPanel implements ActionListener{
 								 resultBean.setErrorDescription(VALID_XML_MSG);
 							   }
 							      
-						  }catch (Exception exc) {								
+						   }catch (Exception exc) {	// validation exception						
 							 resultBean.setValidationResult("no");
-							 resultBean.setErrorDescription(exc.toString()); //the validation exception
-						  }
+							 resultBean.setErrorDescription(exc.toString()); 
+						   }
 						   
-						  validationResultList.add(resultBean);						   
+						   validationResultList.add(resultBean);						   
 						  
-						  BatchValidationResultTableModel tableModel = (BatchValidationResultTableModel)  xmlBatchValidationResultPanel.getValidationResultTable().getModel();		
-						  //initialize the table model with an empty list of data
-						  tableModel.setValidationResultBeanList(validationResultList);
-						  tableModel.fireTableDataChanged();
-					 }					  
-					 this.xmlBatchValidationResultPanel.setVisible(true);
+						   BatchValidationResultTableModel tableModel = (BatchValidationResultTableModel)  xmlBatchValidationResultPanel.getValidationResultTable().getModel();		
+						   //initialize the table model with an empty list of data
+						   tableModel.setValidationResultBeanList(validationResultList);
+						   tableModel.fireTableDataChanged();
+					  }					  
+					  this.xmlBatchValidationResultPanel.setVisible(true);
 
 	        	  }else{        		    
 		        	 ErrorInfo info = new ErrorInfo("Operation Result", "Input Error", "Wrong input folder or XSD file", "category", null, Level.ALL, null); 
 			         JXErrorPane.showDialog(this,info);
-	        	  }	        		  
-	          }		  
+	        	  }	
+	        	  
+	        	}else{ // wrong input files extensions
+	        		ErrorInfo info = new ErrorInfo("Operation Result", "Error during the validation", "Check the files extensions", "category", null, Level.FINE, null); 
+		            JXErrorPane.showDialog(this, info); 
+	        	}
+	         }		  
 	          
-	          /* The user want choose a folder containing xml file to validate */
+	          /* The user choose a folder containing xml files to validate */
 	          if (e.getActionCommand().equals("Browse"))
 	          {	        	  
 	        	  xmlFolderChooser = new JFileChooser();
