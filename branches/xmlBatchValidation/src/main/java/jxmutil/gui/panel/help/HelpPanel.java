@@ -83,7 +83,7 @@ public class HelpPanel extends JPanel implements ActionListener{
          String xmlValidatorMsg = "<html><b>XML Validator: </b>  </html>";
 		 
 		 this.add(new JLabel(xmlValidatorMsg));		 
-		 this.add(new JLabel("<html>Choose an xml file and an xsd to validated against it. <br/> </html>"));		 
+		 this.add(new JLabel("<html>Single file validation: choose an xml file and an xsd to validated against it. <br/> Batch validation: select an xsd and a folder with the xml to check </html>"));		 
 		
 		 this.add(new JSeparator(SwingConstants.HORIZONTAL));		 
 		 
