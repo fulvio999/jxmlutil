@@ -1,4 +1,23 @@
-# jxmlutil
-Automatically exported from code.google.com/p/jxmlutil
+A java swing gui to perform some common XML transformation:
 
-More info about the project can be found at: http://iutility.blogspot.it/2012/06/new-project.html
+    XML validator with XSD
+
+    XPATH expression execution
+
+    XSLT transformation
+
+    XML to json conversion
+
+Portable,cross-platform no installation is required.
+
+Simple gui for Apache Xalan, gui for Apache Xerces and gui for json-lib library
+
+Useful to test quickly XPATH expression and XSLT transformation result.
+
+Visit: http://iutility.blogspot.it/search?q=jxmlutil to download it, more details and screenshot (or for suggestions !)
+
+
+
+CHANGELOG:
+
+1.2 New features: xml batch validation. Validate more xml against the same xsd file.
