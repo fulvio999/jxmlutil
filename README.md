@@ -14,8 +14,7 @@ Simple gui for Apache Xalan, gui for Apache Xerces and gui for json-lib library
 
 Useful to test quickly XPATH expression and XSLT transformation result.
 
-Visit: http://iutility.blogspot.it/search?q=jxmlutil to download it, more details and screenshot (or for suggestions !)
-
+Visit: http://iutility.blogspot.it/search?q=jxmlutil for more details and screenshots (or for suggestions)
 
 
 CHANGELOG:
